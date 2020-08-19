@@ -73,14 +73,14 @@ x = df_data_3[features]
 y = df_data_3[target]
 
 # classifier test and training variables
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=np.random)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=np.random)
 
 dtc_model = ExtraTreesClassifier(n_estimators=200)
 
 dtc_model.fit(x_train, y_train.values.ravel())
 
 # calculate accuracy
-print "\nACCURACY:"
+print "ACCURACY:"
 accuracy = round(dtc_model.score(x_test, y_test), 2) * 100
 print accuracy, "%"
 
