@@ -53,12 +53,31 @@ df_data_3 = pd.DataFrame.from_records(
     columns=df_data_2.columns 
 )
 
-# normalize grade
-col_names = ["NOTA_DE", "NOTA_EM", "NOTA_MF", "NOTA_GO", "INGLES"]
-dataLines = df_data_3[col_names]
-scaler = StandardScaler().fit(dataLines.values)
-dataLines = scaler.transform(dataLines.values)
-df_data_3[col_names] = dataLines
+# change muito_bom tp excelente
+si = SimpleImputer(
+    missing_values='MUITO_BOM',
+    strategy='constant',
+    fill_value='EXCELENTE',
+    verbose=0,
+    copy=True
+)
+
+si.fit(X=df_data_3)
+
+df_data_3 = pd.DataFrame.from_records(
+    data=si.transform(
+        X=df_data_3
+    ), 
+    columns=df_data_3.columns 
+)
+
+
+# # normalize grade
+# col_names = ["NOTA_DE", "NOTA_EM", "NOTA_MF", "NOTA_GO", "INGLES"]
+# dataLines = df_data_3[col_names]
+# scaler = StandardScaler().fit(dataLines.values)
+# dataLines = scaler.transform(dataLines.values)
+# df_data_3[col_names] = dataLines
 
 # split predict and target variable
 features = [
