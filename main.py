@@ -10,7 +10,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.impute import SimpleImputer
 import numpy as np
 
-
 class DropColumns(BaseEstimator, TransformerMixin):
     def __init__(self, columns):
         self.columns = columns
@@ -22,8 +21,10 @@ class DropColumns(BaseEstimator, TransformerMixin):
         data = X.copy()
         return data.drop(labels=self.columns, axis='columns')
 
+# read file
 df_data_1 = pd.read_csv('dataset_desafio_2.csv')
 
+# drop column name
 rm_columns = DropColumns(columns=["NOME"])
 
 rm_columns.fit(X=df_data_1)
@@ -34,6 +35,7 @@ df_data_2 = pd.DataFrame.from_records(
     ),
 )
 
+# remove nan values
 si = SimpleImputer(
     missing_values=np.nan,
     strategy='constant',
@@ -50,9 +52,8 @@ df_data_3 = pd.DataFrame.from_records(
     ), 
     columns=df_data_2.columns 
 )
-# print(df_data_1.info())
-#normalizando dados
 
+# normalize grade
 col_names = ["NOTA_DE", "NOTA_EM", "NOTA_MF", "NOTA_GO", "INGLES"]
 dataLines = df_data_3[col_names]
 scaler = StandardScaler().fit(dataLines.values)
@@ -82,14 +83,5 @@ dtc_model.fit(x_train, y_train.values.ravel())
 print "\nACCURACY:"
 accuracy = round(dtc_model.score(x_test, y_test), 2) * 100
 print accuracy, "%"
-
-
-# print"\nPREDICTED:"
-# result = dtc_model.predict(x_test)
-# print result
-
-# print "\nTRUE RESULT:"
-# trueResult = y_test
-# print trueResult
 
 
